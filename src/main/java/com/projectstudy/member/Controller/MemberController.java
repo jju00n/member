@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/member")
 public class MemberController {
 
+    // 주석
     @GetMapping("/test")
     public String test(@RequestBody String name) {
         return name;
