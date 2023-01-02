@@ -1,5 +1,6 @@
 package com.projectstudy.member.Controller;
 
+import com.projectstudy.member.domain.Member;
 import com.projectstudy.member.dto.MemberDto;
 import com.projectstudy.member.service.MemberService;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class MemberController {
 
     @ResponseBody
     @PostMapping("/join")
-    public MemberDto join(@RequestBody MemberDto memberDto) {
+    public Member join(@RequestBody MemberDto memberDto) {
         return memberService.saveMember(memberDto);
     }
 
