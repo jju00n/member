@@ -1,5 +1,6 @@
 package com.projectstudy.member.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @MappedSuperclass
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Table(name = "member")
 public class Members {
 
@@ -33,11 +36,5 @@ public class Members {
     @LastModifiedDate
     private LocalDateTime updated;
 
-    @Builder
-    public Members(String userName, String userId, String userPw) {
-        this.userName = userName;
-        this.userId = userId;
-        this.userPw = userPw;
-    }
 
 }
