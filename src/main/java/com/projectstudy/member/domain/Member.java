@@ -2,20 +2,21 @@ package com.projectstudy.member.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@MappedSuperclass
-@NoArgsConstructor
+@Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "member")
-public class Members {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +31,10 @@ public class Members {
     @Column(name = "user_pw")
     private String userPw;
 
-    @CreatedDate
+    @CreationTimestamp
     private LocalDateTime created;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDateTime updated;
-
 
 }

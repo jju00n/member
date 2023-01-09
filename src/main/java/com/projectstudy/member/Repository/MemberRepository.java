@@ -1,8 +1,8 @@
-package com.projectstudy.member.Repository;
+package com.projectstudy.member.repository;
 
-import com.projectstudy.member.domain.Members;
+import com.projectstudy.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Members, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
 }
