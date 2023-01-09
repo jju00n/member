@@ -10,11 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class MemberService {
-
-    @Autowired
     private final MemberRepository memberRepository;
-
-
 
     public MemberDto saveMember(MemberDto memberDto) {
 
