@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@SequenceGenerator(name = "USER_SEQ_GENERATOR", sequenceName = "USER_SEQ", initialValue = 1, allocationSize = 1)
 @Table(name = "member")
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     private Long idx;
 
     @Column(name = "user_name")
@@ -32,9 +33,11 @@ public class Member {
     private String userPw;
 
     @CreationTimestamp
+    @Column(name = "created")
     private LocalDateTime created;
 
     @UpdateTimestamp
+    @Column(name = "updated")
     private LocalDateTime updated;
 
 }
