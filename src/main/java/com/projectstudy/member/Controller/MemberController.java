@@ -1,11 +1,12 @@
-package com.projectstudy.member.Controller;
+package com.projectstudy.member.controller;
 
+import com.projectstudy.member.dto.ApiResponseDto;
 import com.projectstudy.member.dto.MemberDto;
 import com.projectstudy.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Member;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/member")
@@ -18,15 +19,14 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    // 주석
-    @GetMapping("/test")
-    public String test(@RequestBody String name) {
-        return name;
+    @PostMapping("/check/id")
+    public HashMap<String, String> checkIdDuplicate(@RequestBody MemberDto memberDto) {
+        return memberService.checkIdDuplicate(memberDto.getUserId());
     }
 
     @ResponseBody
     @PostMapping("/join")
-    public MemberDto join(@RequestBody MemberDto memberDto) {
+    public ApiResponseDto join(@RequestBody MemberDto memberDto) {
         return memberService.saveMember(memberDto);
     }
 
