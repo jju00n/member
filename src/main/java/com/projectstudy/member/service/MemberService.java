@@ -9,25 +9,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public HashMap<String, String> checkIdDuplicate(String id) {
-        HashMap<String, String> result = new HashMap<>();
+    public Map<String, Object> checkIdDuplicate(String id) throws Exception {
 
-        boolean res = memberRepository.existsByUserId(id);
+        List<Member> member = memberRepository.findByUserId(id);
+        Map<String, Object> result = new HashMap<>();
 
-        if(res) {
-            result.put("message", "이미 사용중인 아이디입니다.");
-            result.put("result", String.valueOf(res));
+        if(!member.isEmpty()) {
+            throw new Exception("이미 사용중인 아이디 입니다.");
         } else {
-            result.put("message", "사용 가능한 아이디입니다.");
-            result.put("result", String.valueOf(res));
+            result.put("message", "사용 가능한 아이디 입니다.");
         }
 
         return result;
@@ -36,7 +33,6 @@ public class MemberService {
     public ApiResponseDto saveMember(MemberDto memberDto) {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
 
         String id = memberDto.getUserId();
 
@@ -54,7 +50,6 @@ public class MemberService {
             return new ApiResponseDto("success", HttpStatus.OK.value());
 
         } else {
-
             return new ApiResponseDto("fail", HttpStatus.BAD_REQUEST.value());
         }
 
