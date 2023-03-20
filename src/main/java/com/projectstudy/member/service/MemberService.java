@@ -3,6 +3,7 @@ package com.projectstudy.member.service;
 import com.projectstudy.member.domain.Member;
 import com.projectstudy.member.dto.ApiResponseDto;
 import com.projectstudy.member.dto.MemberDto;
+import com.projectstudy.member.dto.Role;
 import com.projectstudy.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,13 +40,33 @@ public class MemberService {
         List<Member> memberList = memberRepository.findByUserId(id);
 
         if(memberList.isEmpty()) {
-            Member member = Member.builder()
-                    .userName(memberDto.getUserName())
-                    .userId(memberDto.getUserId())
-                    .userPw(passwordEncoder.encode(memberDto.getUserPw()))
-                    .build();
+            if(memberDto.getUserId().equals("admin")) {
+                Member member = Member.builder()
+                        .userName(memberDto.getUserName())
+                        .userId(memberDto.getUserId())
+                        .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+                        .role(String.valueOf(Role.ADMIN))
+                        .build();
 
-            memberRepository.save(member);
+                memberRepository.save(member);
+            } else {
+                Member member = Member.builder()
+                        .userName(memberDto.getUserName())
+                        .userId(memberDto.getUserId())
+                        .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+                        .role(String.valueOf(Role.USER))
+                        .build();
+
+                memberRepository.save(member);
+            }
+
+//            Member member = Member.builder()
+//                    .userName(memberDto.getUserName())
+//                    .userId(memberDto.getUserId())
+//                    .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+//                    .build();
+
+//            memberRepository.save(member);
 
             return new ApiResponseDto("success", HttpStatus.OK.value());
 
