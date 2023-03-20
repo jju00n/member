@@ -1,0 +1,34 @@
+#spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+#spring.datasource.url=jdbc:oracle:thin:@192.168.219.106/XE
+#spring.datasource.username=Lee
+#spring.datasource.password=1
+#
+#
+#server.port=8082
+#
+#spring.jpa.hibernate.ddl-auto=none
+#spring.jpa.generate-ddl=false
+#spring.jpa.show-sql=true
+#spring.jpa.database=oracle
+#
+#logging.level.org.hibernate=info
+#
+#hibernate.dialect=org.hibernate.dialect.HSQLDialect
+
+server:
+  port: 8082
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@192.168.219.106/XE
+    username: Lee
+    password: 1
+  devtools:
+    restart:
+      enabled: true
+
+jwt:
+  header: Authorization
+  secret: member
+  token-validity-in-seconds: 86400 # 60 * 60 * 24
