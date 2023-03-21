@@ -60,14 +60,6 @@ public class MemberService {
                 memberRepository.save(member);
             }
 
-//            Member member = Member.builder()
-//                    .userName(memberDto.getUserName())
-//                    .userId(memberDto.getUserId())
-//                    .userPw(passwordEncoder.encode(memberDto.getUserPw()))
-//                    .build();
-
-//            memberRepository.save(member);
-
             return new ApiResponseDto("success", HttpStatus.OK.value());
 
         } else {

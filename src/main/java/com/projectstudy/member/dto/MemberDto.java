@@ -13,16 +13,13 @@ public class MemberDto {
     private String userId;
     @NotNull
     private String userPw;
-    @NotNull
-    private Role role;
 
 
     @Builder
-    public MemberDto(String userName, String userId, String userPw, Role role) {
+    public MemberDto(String userName, String userId, String userPw) {
         this.userName = userName;
         this.userId = userId;
         this.userPw = userPw;
-        this.role = role;
     }
 
 }
