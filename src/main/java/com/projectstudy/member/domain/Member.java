@@ -35,6 +35,9 @@ public class Member {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "phone")
+    private String userPhone;
+
     @CreationTimestamp
     @Column(name = "created")
     private LocalDateTime created;

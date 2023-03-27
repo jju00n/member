@@ -14,12 +14,16 @@ public class MemberDto {
     @NotNull
     private String userPw;
 
+    @NotNull
+    private String userPhone;
+
 
     @Builder
-    public MemberDto(String userName, String userId, String userPw) {
+    public MemberDto(String userName, String userId, String userPw, String userPhone) {
         this.userName = userName;
         this.userId = userId;
         this.userPw = userPw;
+        this.userPhone = userPhone;
     }
 
 }

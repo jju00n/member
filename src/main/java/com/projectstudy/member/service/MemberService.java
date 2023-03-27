@@ -46,6 +46,7 @@ public class MemberService {
                         .userId(memberDto.getUserId())
                         .userPw(passwordEncoder.encode(memberDto.getUserPw()))
                         .role(String.valueOf(Role.ADMIN))
+                        .userPhone(memberDto.getUserPhone())
                         .build();
 
                 memberRepository.save(member);
@@ -55,6 +56,7 @@ public class MemberService {
                         .userId(memberDto.getUserId())
                         .userPw(passwordEncoder.encode(memberDto.getUserPw()))
                         .role(String.valueOf(Role.USER))
+                        .userPhone(memberDto.getUserPhone())
                         .build();
 
                 memberRepository.save(member);
