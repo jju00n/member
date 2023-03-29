@@ -62,11 +62,43 @@ public class MemberService {
                 memberRepository.save(member);
             }
 
-            return new ApiResponseDto("success", HttpStatus.OK.value());
+            return new ApiResponseDto(true, HttpStatus.OK.value(), null);
 
         } else {
-            return new ApiResponseDto("fail", HttpStatus.BAD_REQUEST.value());
+            return new ApiResponseDto(false, HttpStatus.BAD_REQUEST.value(), null);
         }
+
+    }
+
+    public ApiResponseDto findID(MemberDto memberDto) {
+        String phone = memberDto.getUserPhone();
+
+        Member member = memberRepository.findMemberByUserPhone(phone);
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(member == null) {
+            result.put("message", "회원정보가 존재하지 않습니다.");
+            return new ApiResponseDto(false, HttpStatus.NOT_FOUND.value(), result);
+        }
+        result.put("ID",member.getUserId());
+        return new ApiResponseDto(true, HttpStatus.OK.value(), result);
+    }
+
+    public ApiResponseDto findPw(MemberDto memberDto) {
+        String userId = memberDto.getUserId();
+        String userPhone = memberDto.getUserPhone();
+
+        Member member = memberRepository.findByUserIdOrUserPhone(userId, userPhone);
+
+        Map<String, Object> result = new HashMap<>();
+
+        if(member == null) {
+            result.put("message", "회원정보가 존재하지 않습니다.");
+            return new ApiResponseDto(false, HttpStatus.NOT_FOUND.value(), result);
+        }
+
+        return new ApiResponseDto(true, HttpStatus.OK.value(), null);
 
     }
 }
