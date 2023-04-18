@@ -19,10 +19,10 @@ public class MemberService {
 
     public Map<String, Object> checkIdDuplicate(String id) throws Exception {
 
-        List<Member> member = memberRepository.findByUserId(id);
+        Member member = memberRepository.findByUserId(id);
         Map<String, Object> result = new HashMap<>();
 
-        if(!member.isEmpty()) {
+        if(member != null) {
             throw new Exception("이미 사용중인 아이디 입니다.");
         } else {
             result.put("message", "사용 가능한 아이디 입니다.");
@@ -37,9 +37,9 @@ public class MemberService {
 
         String id = memberDto.getUserId();
 
-        List<Member> memberList = memberRepository.findByUserId(id);
+        Member memberList = memberRepository.findByUserId(id);
 
-        if(memberList.isEmpty()) {
+        if(memberList == null) {
             if(memberDto.getUserId().equals("admin")) {
                 Member member = Member.builder()
                         .userName(memberDto.getUserName())
@@ -85,20 +85,35 @@ public class MemberService {
         return new ApiResponseDto(true, HttpStatus.OK.value(), result);
     }
 
-    public ApiResponseDto findPw(MemberDto memberDto) {
+    public Boolean findPw(MemberDto memberDto) throws Exception {
         String userId = memberDto.getUserId();
         String userPhone = memberDto.getUserPhone();
 
-        Member member = memberRepository.findByUserIdOrUserPhone(userId, userPhone);
-
-        Map<String, Object> result = new HashMap<>();
+        Member member = memberRepository.findByUserIdAndUserPhone(userId, userPhone);
 
         if(member == null) {
-            result.put("message", "회원정보가 존재하지 않습니다.");
-            return new ApiResponseDto(false, HttpStatus.NOT_FOUND.value(), result);
+            throw new Exception("회원정보가 없습니다.");
         }
 
-        return new ApiResponseDto(true, HttpStatus.OK.value(), null);
+        return true;
 
+    }
+    public Boolean changePw(MemberDto memberDto) throws Exception {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        String pw = memberDto.getUserPw();
+
+        Member member = memberRepository.findByUserId(memberDto.getUserId());
+
+        if (member != null) {
+
+            member.setUserPw(passwordEncoder.encode(pw));
+
+            memberRepository.updatePw(member.getUserId(), memberDto.getUserPhone(), member.getUserPw());
+
+            return true;
+        } else {
+            throw new Exception("비밀번호 변경에 실패하였습니다.");
+        }
     }
 }
