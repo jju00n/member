@@ -2,11 +2,16 @@ package com.projectstudy.member.service;
 
 import com.projectstudy.member.domain.Member;
 import com.projectstudy.member.dto.ApiResponseDto;
+import com.projectstudy.member.dto.JwtToken;
 import com.projectstudy.member.dto.MemberDto;
 import com.projectstudy.member.dto.Role;
+import com.projectstudy.member.jwt.TokenProvider;
 import com.projectstudy.member.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +45,9 @@ public class MemberService {
         Member memberList = memberRepository.findByUserId(id);
 
         if(memberList == null) {
+            Member member;
             if(memberDto.getUserId().equals("admin")) {
-                Member member = Member.builder()
+                member = Member.builder()
                         .userName(memberDto.getUserName())
                         .userId(memberDto.getUserId())
                         .userPw(passwordEncoder.encode(memberDto.getUserPw()))
@@ -49,9 +55,8 @@ public class MemberService {
                         .userPhone(memberDto.getUserPhone())
                         .build();
 
-                memberRepository.save(member);
             } else {
-                Member member = Member.builder()
+                member = Member.builder()
                         .userName(memberDto.getUserName())
                         .userId(memberDto.getUserId())
                         .userPw(passwordEncoder.encode(memberDto.getUserPw()))
@@ -59,8 +64,8 @@ public class MemberService {
                         .userPhone(memberDto.getUserPhone())
                         .build();
 
-                memberRepository.save(member);
             }
+            memberRepository.save(member);
 
             return new ApiResponseDto(true, HttpStatus.OK.value(), null);
 
@@ -116,4 +121,8 @@ public class MemberService {
             throw new Exception("비밀번호 변경에 실패하였습니다.");
         }
     }
+
+//    public Res login(MemberDto memberDto) {
+//
+//    }
 }
